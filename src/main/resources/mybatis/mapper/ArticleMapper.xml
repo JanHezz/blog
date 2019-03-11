@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.janhe.blog.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.janhe.blog.pojo.Article" >
+    <id column="oid" property="oid" jdbcType="VARCHAR" />
+    <result column="tittle" property="tittle" jdbcType="VARCHAR" />
+    <result column="cat_id" property="catId" jdbcType="VARCHAR" />
+    <result column="tip_id" property="tipId" jdbcType="VARCHAR" />
+    <result column="title_img" property="titleImg" jdbcType="VARCHAR" />
+    <result column="source_name" property="sourceName" jdbcType="VARCHAR" />
+    <result column="source_url" property="sourceUrl" jdbcType="VARCHAR" />
+    <result column="creat_user" property="creatUser" jdbcType="VARCHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+    <result column="like_count" property="likeCount" jdbcType="INTEGER" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="enable_tag" property="enableTag" jdbcType="VARCHAR" />
+    <result column="back_code1" property="backCode1" jdbcType="VARCHAR" />
+    <result column="back_code2" property="backCode2" jdbcType="VARCHAR" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.janhe.blog.pojo.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, tittle, cat_id, tip_id, title_img, source_name, source_url, creat_user, creat_time, 
+    view_count, like_count, comment_count, update_time, status, enable_tag, back_code1, 
+    back_code2, order_by
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.janhe.blog.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.janhe.blog.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where oid = #{oid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from article
+    where oid = #{oid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.janhe.blog.pojo.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.janhe.blog.pojo.Article" >
+    insert into article (oid, tittle, cat_id, 
+      tip_id, title_img, source_name, 
+      source_url, creat_user, creat_time, 
+      view_count, like_count, comment_count, 
+      update_time, status, enable_tag, 
+      back_code1, back_code2, order_by, 
+      content)
+    values (#{oid,jdbcType=VARCHAR}, #{tittle,jdbcType=VARCHAR}, #{catId,jdbcType=VARCHAR}, 
+      #{tipId,jdbcType=VARCHAR}, #{titleImg,jdbcType=VARCHAR}, #{sourceName,jdbcType=VARCHAR}, 
+      #{sourceUrl,jdbcType=VARCHAR}, #{creatUser,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{enableTag,jdbcType=VARCHAR}, 
+      #{backCode1,jdbcType=VARCHAR}, #{backCode2,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.janhe.blog.pojo.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="tittle != null" >
+        tittle,
+      </if>
+      <if test="catId != null" >
+        cat_id,
+      </if>
+      <if test="tipId != null" >
+        tip_id,
+      </if>
+      <if test="titleImg != null" >
+        title_img,
+      </if>
+      <if test="sourceName != null" >
+        source_name,
+      </if>
+      <if test="sourceUrl != null" >
+        source_url,
+      </if>
+      <if test="creatUser != null" >
+        creat_user,
+      </if>
+      <if test="creatTime != null" >
+        creat_time,
+      </if>
+      <if test="viewCount != null" >
+        view_count,
+      </if>
+      <if test="likeCount != null" >
+        like_count,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="enableTag != null" >
+        enable_tag,
+      </if>
+      <if test="backCode1 != null" >
+        back_code1,
+      </if>
+      <if test="backCode2 != null" >
+        back_code2,
+      </if>
+      <if test="orderBy != null" >
+        order_by,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="tittle != null" >
+        #{tittle,jdbcType=VARCHAR},
+      </if>
+      <if test="catId != null" >
+        #{catId,jdbcType=VARCHAR},
+      </if>
+      <if test="tipId != null" >
+        #{tipId,jdbcType=VARCHAR},
+      </if>
+      <if test="titleImg != null" >
+        #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceName != null" >
+        #{sourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceUrl != null" >
+        #{sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creatUser != null" >
+        #{creatUser,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewCount != null" >
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null" >
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="enableTag != null" >
+        #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.janhe.blog.pojo.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tittle != null" >
+        tittle = #{record.tittle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.catId != null" >
+        cat_id = #{record.catId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tipId != null" >
+        tip_id = #{record.tipId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.titleImg != null" >
+        title_img = #{record.titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceName != null" >
+        source_name = #{record.sourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceUrl != null" >
+        source_url = #{record.sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatUser != null" >
+        creat_user = #{record.creatUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatTime != null" >
+        creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.viewCount != null" >
+        view_count = #{record.viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.likeCount != null" >
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentCount != null" >
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.enableTag != null" >
+        enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode1 != null" >
+        back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode2 != null" >
+        back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderBy != null" >
+        order_by = #{record.orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update article
+    set oid = #{record.oid,jdbcType=VARCHAR},
+      tittle = #{record.tittle,jdbcType=VARCHAR},
+      cat_id = #{record.catId,jdbcType=VARCHAR},
+      tip_id = #{record.tipId,jdbcType=VARCHAR},
+      title_img = #{record.titleImg,jdbcType=VARCHAR},
+      source_name = #{record.sourceName,jdbcType=VARCHAR},
+      source_url = #{record.sourceUrl,jdbcType=VARCHAR},
+      creat_user = #{record.creatUser,jdbcType=VARCHAR},
+      creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      view_count = #{record.viewCount,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set oid = #{record.oid,jdbcType=VARCHAR},
+      tittle = #{record.tittle,jdbcType=VARCHAR},
+      cat_id = #{record.catId,jdbcType=VARCHAR},
+      tip_id = #{record.tipId,jdbcType=VARCHAR},
+      title_img = #{record.titleImg,jdbcType=VARCHAR},
+      source_name = #{record.sourceName,jdbcType=VARCHAR},
+      source_url = #{record.sourceUrl,jdbcType=VARCHAR},
+      creat_user = #{record.creatUser,jdbcType=VARCHAR},
+      creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      view_count = #{record.viewCount,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.janhe.blog.pojo.Article" >
+    update article
+    <set >
+      <if test="tittle != null" >
+        tittle = #{tittle,jdbcType=VARCHAR},
+      </if>
+      <if test="catId != null" >
+        cat_id = #{catId,jdbcType=VARCHAR},
+      </if>
+      <if test="tipId != null" >
+        tip_id = #{tipId,jdbcType=VARCHAR},
+      </if>
+      <if test="titleImg != null" >
+        title_img = #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceName != null" >
+        source_name = #{sourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceUrl != null" >
+        source_url = #{sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="creatUser != null" >
+        creat_user = #{creatUser,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewCount != null" >
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null" >
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="enableTag != null" >
+        enable_tag = #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        back_code1 = #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        back_code2 = #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.janhe.blog.pojo.Article" >
+    update article
+    set tittle = #{tittle,jdbcType=VARCHAR},
+      cat_id = #{catId,jdbcType=VARCHAR},
+      tip_id = #{tipId,jdbcType=VARCHAR},
+      title_img = #{titleImg,jdbcType=VARCHAR},
+      source_name = #{sourceName,jdbcType=VARCHAR},
+      source_url = #{sourceUrl,jdbcType=VARCHAR},
+      creat_user = #{creatUser,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      enable_tag = #{enableTag,jdbcType=VARCHAR},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.janhe.blog.pojo.Article" >
+    update article
+    set tittle = #{tittle,jdbcType=VARCHAR},
+      cat_id = #{catId,jdbcType=VARCHAR},
+      tip_id = #{tipId,jdbcType=VARCHAR},
+      title_img = #{titleImg,jdbcType=VARCHAR},
+      source_name = #{sourceName,jdbcType=VARCHAR},
+      source_url = #{sourceUrl,jdbcType=VARCHAR},
+      creat_user = #{creatUser,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      enable_tag = #{enableTag,jdbcType=VARCHAR},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER}
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+</mapper>

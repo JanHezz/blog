@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.janhe.blog.mapper.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.janhe.blog.pojo.Comments" >
+    <id column="oid" property="oid" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="enable_tag" property="enableTag" jdbcType="VARCHAR" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+    <result column="back_code1" property="backCode1" jdbcType="VARCHAR" />
+    <result column="back_code2" property="backCode2" jdbcType="VARCHAR" />
+    <result column="back_code3" property="backCode3" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.janhe.blog.pojo.Comments" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, nick_name, email, create_time, enable_tag, order_by, back_code1, back_code2, 
+    back_code3
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.janhe.blog.pojo.CommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.janhe.blog.pojo.CommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comments
+    where oid = #{oid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from comments
+    where oid = #{oid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.janhe.blog.pojo.CommentsExample" >
+    delete from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.janhe.blog.pojo.Comments" >
+    insert into comments (oid, nick_name, email, 
+      create_time, enable_tag, order_by, 
+      back_code1, back_code2, back_code3, 
+      content)
+    values (#{oid,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{enableTag,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
+      #{backCode1,jdbcType=VARCHAR}, #{backCode2,jdbcType=VARCHAR}, #{backCode3,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.janhe.blog.pojo.Comments" >
+    insert into comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="enableTag != null" >
+        enable_tag,
+      </if>
+      <if test="orderBy != null" >
+        order_by,
+      </if>
+      <if test="backCode1 != null" >
+        back_code1,
+      </if>
+      <if test="backCode2 != null" >
+        back_code2,
+      </if>
+      <if test="backCode3 != null" >
+        back_code3,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableTag != null" >
+        #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="backCode1 != null" >
+        #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.janhe.blog.pojo.CommentsExample" resultType="java.lang.Integer" >
+    select count(*) from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update comments
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enableTag != null" >
+        enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderBy != null" >
+        order_by = #{record.orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.backCode1 != null" >
+        back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode2 != null" >
+        back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode3 != null" >
+        back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update comments
+    set oid = #{record.oid,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update comments
+    set oid = #{record.oid,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      back_code3 = #{record.backCode3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.janhe.blog.pojo.Comments" >
+    update comments
+    <set >
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableTag != null" >
+        enable_tag = #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="backCode1 != null" >
+        back_code1 = #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        back_code2 = #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        back_code3 = #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.janhe.blog.pojo.Comments" >
+    update comments
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      enable_tag = #{enableTag,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      back_code3 = #{backCode3,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.janhe.blog.pojo.Comments" >
+    update comments
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      enable_tag = #{enableTag,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      back_code3 = #{backCode3,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.janhe.blog.mapper.BlogInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.janhe.blog.pojo.BlogInfo" >
+    <id column="oid" property="oid" jdbcType="INTEGER" />
+    <result column="blog_url" property="blogUrl" jdbcType="VARCHAR" />
+    <result column="blog_title" property="blogTitle" jdbcType="VARCHAR" />
+    <result column="back_code1" property="backCode1" jdbcType="VARCHAR" />
+    <result column="back_code4" property="backCode4" jdbcType="VARCHAR" />
+    <result column="back_code3" property="backCode3" jdbcType="VARCHAR" />
+    <result column="back_code2" property="backCode2" jdbcType="VARCHAR" />
+    <result column="enable_tag" property="enableTag" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.janhe.blog.pojo.BlogInfoWithBLOBs" extends="BaseResultMap" >
+    <result column="blog_des" property="blogDes" jdbcType="LONGVARCHAR" />
+    <result column="auther_info" property="autherInfo" jdbcType="LONGVARCHAR" />
+    <result column="link_info" property="linkInfo" jdbcType="LONGVARCHAR" />
+    <result column="ad_info" property="adInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, blog_url, blog_title, back_code1, back_code4, back_code3, back_code2, enable_tag
+  </sql>
+  <sql id="Blob_Column_List" >
+    blog_des, auther_info, link_info, ad_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.janhe.blog.pojo.BlogInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.janhe.blog.pojo.BlogInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_info
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog_info
+    where oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.janhe.blog.pojo.BlogInfoExample" >
+    delete from blog_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.janhe.blog.pojo.BlogInfoWithBLOBs" >
+    insert into blog_info (oid, blog_url, blog_title, 
+      back_code1, back_code4, back_code3, 
+      back_code2, enable_tag, blog_des, 
+      auther_info, link_info, ad_info
+      )
+    values (#{oid,jdbcType=INTEGER}, #{blogUrl,jdbcType=VARCHAR}, #{blogTitle,jdbcType=VARCHAR}, 
+      #{backCode1,jdbcType=VARCHAR}, #{backCode4,jdbcType=VARCHAR}, #{backCode3,jdbcType=VARCHAR}, 
+      #{backCode2,jdbcType=VARCHAR}, #{enableTag,jdbcType=VARCHAR}, #{blogDes,jdbcType=LONGVARCHAR}, 
+      #{autherInfo,jdbcType=LONGVARCHAR}, #{linkInfo,jdbcType=LONGVARCHAR}, #{adInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.janhe.blog.pojo.BlogInfoWithBLOBs" >
+    insert into blog_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="blogUrl != null" >
+        blog_url,
+      </if>
+      <if test="blogTitle != null" >
+        blog_title,
+      </if>
+      <if test="backCode1 != null" >
+        back_code1,
+      </if>
+      <if test="backCode4 != null" >
+        back_code4,
+      </if>
+      <if test="backCode3 != null" >
+        back_code3,
+      </if>
+      <if test="backCode2 != null" >
+        back_code2,
+      </if>
+      <if test="enableTag != null" >
+        enable_tag,
+      </if>
+      <if test="blogDes != null" >
+        blog_des,
+      </if>
+      <if test="autherInfo != null" >
+        auther_info,
+      </if>
+      <if test="linkInfo != null" >
+        link_info,
+      </if>
+      <if test="adInfo != null" >
+        ad_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="blogUrl != null" >
+        #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="blogTitle != null" >
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode4 != null" >
+        #{backCode4,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="enableTag != null" >
+        #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDes != null" >
+        #{blogDes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="autherInfo != null" >
+        #{autherInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="linkInfo != null" >
+        #{linkInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="adInfo != null" >
+        #{adInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.janhe.blog.pojo.BlogInfoExample" resultType="java.lang.Integer" >
+    select count(*) from blog_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_info
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogUrl != null" >
+        blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogTitle != null" >
+        blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode1 != null" >
+        back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode4 != null" >
+        back_code4 = #{record.backCode4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode3 != null" >
+        back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode2 != null" >
+        back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enableTag != null" >
+        enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogDes != null" >
+        blog_des = #{record.blogDes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.autherInfo != null" >
+        auther_info = #{record.autherInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.linkInfo != null" >
+        link_info = #{record.linkInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.adInfo != null" >
+        ad_info = #{record.adInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_info
+    set oid = #{record.oid,jdbcType=INTEGER},
+      blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code4 = #{record.backCode4,jdbcType=VARCHAR},
+      back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      blog_des = #{record.blogDes,jdbcType=LONGVARCHAR},
+      auther_info = #{record.autherInfo,jdbcType=LONGVARCHAR},
+      link_info = #{record.linkInfo,jdbcType=LONGVARCHAR},
+      ad_info = #{record.adInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_info
+    set oid = #{record.oid,jdbcType=INTEGER},
+      blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code4 = #{record.backCode4,jdbcType=VARCHAR},
+      back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.janhe.blog.pojo.BlogInfoWithBLOBs" >
+    update blog_info
+    <set >
+      <if test="blogUrl != null" >
+        blog_url = #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="blogTitle != null" >
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        back_code1 = #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode4 != null" >
+        back_code4 = #{backCode4,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        back_code3 = #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        back_code2 = #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="enableTag != null" >
+        enable_tag = #{enableTag,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDes != null" >
+        blog_des = #{blogDes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="autherInfo != null" >
+        auther_info = #{autherInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="linkInfo != null" >
+        link_info = #{linkInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="adInfo != null" >
+        ad_info = #{adInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.janhe.blog.pojo.BlogInfoWithBLOBs" >
+    update blog_info
+    set blog_url = #{blogUrl,jdbcType=VARCHAR},
+      blog_title = #{blogTitle,jdbcType=VARCHAR},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code4 = #{backCode4,jdbcType=VARCHAR},
+      back_code3 = #{backCode3,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      enable_tag = #{enableTag,jdbcType=VARCHAR},
+      blog_des = #{blogDes,jdbcType=LONGVARCHAR},
+      auther_info = #{autherInfo,jdbcType=LONGVARCHAR},
+      link_info = #{linkInfo,jdbcType=LONGVARCHAR},
+      ad_info = #{adInfo,jdbcType=LONGVARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.janhe.blog.pojo.BlogInfo" >
+    update blog_info
+    set blog_url = #{blogUrl,jdbcType=VARCHAR},
+      blog_title = #{blogTitle,jdbcType=VARCHAR},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code4 = #{backCode4,jdbcType=VARCHAR},
+      back_code3 = #{backCode3,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      enable_tag = #{enableTag,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+</mapper>

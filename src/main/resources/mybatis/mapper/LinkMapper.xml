@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.janhe.blog.mapper.LinkMapper" >
+  <resultMap id="BaseResultMap" type="com.janhe.blog.pojo.Link" >
+    <id column="oid" property="oid" jdbcType="INTEGER" />
+    <result column="link_name" property="linkName" jdbcType="VARCHAR" />
+    <result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+    <result column="link_img" property="linkImg" jdbcType="VARCHAR" />
+    <result column="back_code1" property="backCode1" jdbcType="VARCHAR" />
+    <result column="back_code3" property="backCode3" jdbcType="VARCHAR" />
+    <result column="back_code2" property="backCode2" jdbcType="VARCHAR" />
+    <result column="enable_tag" property="enableTag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, link_name, link_url, link_img, back_code1, back_code3, back_code2, enable_tag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.janhe.blog.pojo.LinkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from link
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from link
+    where oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.janhe.blog.pojo.LinkExample" >
+    delete from link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.janhe.blog.pojo.Link" >
+    insert into link (oid, link_name, link_url, 
+      link_img, back_code1, back_code3, 
+      back_code2, enable_tag)
+    values (#{oid,jdbcType=INTEGER}, #{linkName,jdbcType=VARCHAR}, #{linkUrl,jdbcType=VARCHAR}, 
+      #{linkImg,jdbcType=VARCHAR}, #{backCode1,jdbcType=VARCHAR}, #{backCode3,jdbcType=VARCHAR}, 
+      #{backCode2,jdbcType=VARCHAR}, #{enableTag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.janhe.blog.pojo.Link" >
+    insert into link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="linkName != null" >
+        link_name,
+      </if>
+      <if test="linkUrl != null" >
+        link_url,
+      </if>
+      <if test="linkImg != null" >
+        link_img,
+      </if>
+      <if test="backCode1 != null" >
+        back_code1,
+      </if>
+      <if test="backCode3 != null" >
+        back_code3,
+      </if>
+      <if test="backCode2 != null" >
+        back_code2,
+      </if>
+      <if test="enableTag != null" >
+        enable_tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="linkName != null" >
+        #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null" >
+        #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linkImg != null" >
+        #{linkImg,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="enableTag != null" >
+        #{enableTag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.janhe.blog.pojo.LinkExample" resultType="java.lang.Integer" >
+    select count(*) from link
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update link
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkName != null" >
+        link_name = #{record.linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkUrl != null" >
+        link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkImg != null" >
+        link_img = #{record.linkImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode1 != null" >
+        back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode3 != null" >
+        back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backCode2 != null" >
+        back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enableTag != null" >
+        enable_tag = #{record.enableTag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update link
+    set oid = #{record.oid,jdbcType=INTEGER},
+      link_name = #{record.linkName,jdbcType=VARCHAR},
+      link_url = #{record.linkUrl,jdbcType=VARCHAR},
+      link_img = #{record.linkImg,jdbcType=VARCHAR},
+      back_code1 = #{record.backCode1,jdbcType=VARCHAR},
+      back_code3 = #{record.backCode3,jdbcType=VARCHAR},
+      back_code2 = #{record.backCode2,jdbcType=VARCHAR},
+      enable_tag = #{record.enableTag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.janhe.blog.pojo.Link" >
+    update link
+    <set >
+      <if test="linkName != null" >
+        link_name = #{linkName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUrl != null" >
+        link_url = #{linkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linkImg != null" >
+        link_img = #{linkImg,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode1 != null" >
+        back_code1 = #{backCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode3 != null" >
+        back_code3 = #{backCode3,jdbcType=VARCHAR},
+      </if>
+      <if test="backCode2 != null" >
+        back_code2 = #{backCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="enableTag != null" >
+        enable_tag = #{enableTag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.janhe.blog.pojo.Link" >
+    update link
+    set link_name = #{linkName,jdbcType=VARCHAR},
+      link_url = #{linkUrl,jdbcType=VARCHAR},
+      link_img = #{linkImg,jdbcType=VARCHAR},
+      back_code1 = #{backCode1,jdbcType=VARCHAR},
+      back_code3 = #{backCode3,jdbcType=VARCHAR},
+      back_code2 = #{backCode2,jdbcType=VARCHAR},
+      enable_tag = #{enableTag,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+</mapper>
