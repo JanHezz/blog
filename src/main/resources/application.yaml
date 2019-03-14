@@ -6,7 +6,7 @@ spring:
     #   数据源基本配置
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
@@ -26,6 +26,10 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    ##redis
+  redis:
+    port: 6379
+    host: 192.168.25.128
 mybatis:
               # 指定全局配置文件位置
   config-location: classpath:mybatis/mybatis-config.xml
@@ -34,6 +38,8 @@ mybatis:
   ##给pojo取别名
   type-aliases-package: com.janhe.blog.pojo
 
+  ##redis
 
 
-
+##开启日志
+debug: false

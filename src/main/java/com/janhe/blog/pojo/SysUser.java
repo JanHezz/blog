@@ -1,8 +1,9 @@
 package com.janhe.blog.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysUser {
+public class SysUser  implements Serializable {
     private String oid;
 
     private String loginName;

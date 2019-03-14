@@ -2,6 +2,7 @@ package com.janhe.blog.controller.admin;
 
 import com.janhe.blog.mapper.SysUserMapper;
 import com.janhe.blog.pojo.SysUser;
+import com.janhe.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
-    @Autowired
-    SysUserMapper userMapper;
+  @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/{oid}")
     @ResponseBody
     public SysUser login(@PathVariable("oid") String oid)
     {
-      return   userMapper.selectByPrimaryKey(oid);
+      return   userService.getUser(oid);
     }
 
 }
