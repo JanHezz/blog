@@ -3,6 +3,7 @@ package com.janhe.blog.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.apache.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -17,16 +18,21 @@ import java.util.Map;
 @Configuration
 public class DruidConfig {
 
+    private Logger logger=Logger.getLogger(this.getClass());
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource druid(){
         return  new DruidDataSource();
     }
 
+
+
     //配置Druid的监控
     //1、配置一个管理后台的Servlet
     @Bean
     public ServletRegistrationBean statViewServlet(){
+
+        logger.info("druid连接池初始化中");
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
         Map<String,String> initParams = new HashMap<>();
 
